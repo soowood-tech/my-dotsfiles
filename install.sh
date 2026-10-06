@@ -92,6 +92,8 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
             slurp
             wl-clipboard
             libnotify
+            dunst
+            power-profiles-daemon
             brightnessctl
             sddm
             qt6-5compat
@@ -162,7 +164,7 @@ fi
 # 2. Backup existing configs
 log_info "Создание резервной копии текущих конфигураций..."
 mkdir -p "$BACKUP_DIR"
-CONFIG_LIST=(hypr waybar foot kitty rofi cava btop fastfetch fish sddm-theme)
+CONFIG_LIST=(hypr waybar dunst foot kitty rofi cava btop fastfetch fish sddm-theme)
 
 BACKED_UP=false
 for cfg in "${CONFIG_LIST[@]}"; do

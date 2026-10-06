@@ -16,6 +16,7 @@
         "clock"
     ],
     "modules-right": [
+        "hyprland/language",
         "backlight",
         "pulseaudio",
         "network",
@@ -123,6 +124,14 @@
         "on-click": "kitty --class float-term -e bluetoothctl"
     },
 
+    "hyprland/language": {
+        "format": "󰌌 {}",
+        "format-en": "US",
+        "format-ru": "RU",
+        "keyboard-name": "at-translated-set-2-keyboard",
+        "on-click": "hyprctl switchxkblayout at-translated-set-2-keyboard next"
+    },
+
     "battery": {
         "states": {
             "good": 95,
@@ -132,8 +141,8 @@
         "format": "{icon} {capacity}%",
         "format-charging": "󰂄 {capacity}%",
         "format-plugged": " {capacity}%",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["󰂃", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+        "format-icons": ["󰂃", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "on-click": "/home/soowood/.config/hypr/scripts/power_profile.sh"
     },
 
     "tray": {
@@ -144,6 +153,6 @@
     "custom/power": {
         "format": "⏻",
         "tooltip": false,
-        "on-click": "wlogout || notify-send 'Power' 'Нажмите Super+M для меню выключения'"
+        "on-click": "/home/soowood/.config/hypr/scripts/powermenu.sh"
     }
 }

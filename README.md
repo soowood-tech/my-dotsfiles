@@ -74,6 +74,7 @@ cd ~/my-dotsfiles
 | **`SUPER + Enter`** | Запустить терминал (`foot`) |
 | **`SUPER + R`** или **`SUPER`** | Меню приложений (`rofi`) |
 | **`SUPER + L`** | **Заблокировать экран (`hyprlock`)** |
+| **`SUPER + M`** / **`SUPER + Esc`** | **Меню выключения питания (`rofi`)** |
 | **`SUPER + W`** | **Сменить обои и сгенерировать новую палитру** |
 | **`SUPER + Q`** | Закрыть активное окно |
 | **`SUPER + E`** | Файловый менеджер (`nautilus`) |
@@ -92,6 +93,8 @@ cd ~/my-dotsfiles
 - **Оконный менеджер**: `hyprland`
 - **Блокировка экрана**: `hyprlock`
 - **Панель**: `waybar-git` (AUR) или `waybar`
+- **Уведомления**: `dunst`
+- **Управление питанием**: `power-profiles-daemon`
 - **Терминалы**: `foot`, `kitty`
 - **Меню**: `rofi-wayland`
 - **Обои**: `awww` (AUR) или `swww`

@@ -34,6 +34,7 @@ tooltip label {
 #cava,
 #mpris,
 #clock,
+#language,
 #backlight,
 #pulseaudio,
 #network,
@@ -107,6 +108,10 @@ tooltip label {
 }
 
 /* Right Modules */
+#language {
+    color: #eed49f;
+}
+
 #backlight {
     color: #f5a97f;
 }
