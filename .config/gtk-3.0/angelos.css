@@ -1,0 +1,122 @@
+/* angelOS overdose / dark — generated */
+@define-color accent_color #ff2e7e;
+@define-color accent_bg_color #ff2e7e;
+@define-color accent_fg_color #1a0d24;
+@define-color destructive_bg_color #ff4f6d;
+@define-color destructive_fg_color #ffffff;
+@define-color error_bg_color #ff4f6d;
+@define-color error_fg_color #ffffff;
+@define-color window_bg_color #1a0f24;
+@define-color window_fg_color #ffe1f1;
+@define-color view_bg_color #1a0f24;
+@define-color view_fg_color #ffe1f1;
+@define-color headerbar_bg_color #241432;
+@define-color headerbar_fg_color #ffe1f1;
+@define-color headerbar_backdrop_color @window_bg_color;
+@define-color popover_bg_color #241432;
+@define-color popover_fg_color #ffe1f1;
+@define-color card_bg_color #241432;
+@define-color card_fg_color #ffe1f1;
+@define-color dialog_bg_color #1a0f24;
+@define-color dialog_fg_color #ffe1f1;
+@define-color sidebar_bg_color #241432;
+@define-color sidebar_fg_color #ffe1f1;
+@define-color theme_selected_bg_color @accent_bg_color;
+@define-color theme_selected_fg_color @accent_fg_color;
+@define-color theme_unfocused_selected_bg_color @accent_bg_color;
+@define-color theme_unfocused_selected_fg_color @accent_fg_color;
+
+/* angelOS pixel frames, like the shell's own boxes (PxBox): a 2 px outline whose corners step
+   in by one art pixel, and a 2 px bevel inside — light top-left, dark bottom-right on buttons,
+   the other way round on fields and pressed buttons. The outline is an image
+   (assets/frame-*.svg, drawn by scripts/gtk-live.py in the palette's edge colour) laid 4 px wide
+   over a 2 px border: the pixels outside the step fall on the border, where nothing is painted,
+   so what is behind shows and the corner looks round in pixels. Windows round by the same 4 px in
+   niri (templates/niri.kdl, it clips them); Qt apps get the same frames (scripts/qt-theme.py). */
+window,
+window.csd,
+window.solid-csd,
+decoration,
+.window-frame,
+headerbar,
+.titlebar,
+.titlebar .titlebutton,
+list,
+list row,
+notebook,
+notebook > header tab,
+progressbar trough,
+progressbar progress,
+treeview,
+.view {
+    border-radius: 0;
+}
+
+button:not(.flat):not(.titlebutton):not(.link),
+combobox button.combo,
+menu,
+.menu,
+popover.background,
+tooltip.background,
+switch slider,
+scale slider {
+    border: 2px solid transparent;
+    border-image: url("assets/frame-raised.svg") 4 / 4px stretch;
+    border-radius: 0;
+    background-clip: padding-box;
+    box-shadow: none;
+}
+button:not(.flat):not(.titlebutton):not(.link):active,
+button:not(.flat):not(.titlebutton):not(.link):checked,
+combobox button.combo:checked {
+    border-image: url("assets/frame-sunken.svg") 4 / 4px stretch;
+}
+entry,
+spinbutton:not(.vertical),
+frame > border,
+.frame,
+switch {
+    border: 2px solid transparent;
+    border-image: url("assets/frame-sunken.svg") 4 / 4px stretch;
+    border-radius: 0;
+    background-clip: padding-box;
+    box-shadow: none;
+}
+/* inside a spin button or a combo with an entry the box around them is the frame */
+spinbutton entry,
+spinbutton:not(.vertical) > button.up,
+spinbutton:not(.vertical) > button.down,
+combobox entry,
+.linked > entry + button.combo {
+    border-image: none;
+    border-style: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+spinbutton:not(.vertical) > button.up,
+spinbutton:not(.vertical) > button.down {
+    border-left: 2px solid alpha(#ffe1f1, 0.2);
+    background-clip: padding-box;
+}
+scale > trough,
+scale > trough > highlight,
+progressbar > trough,
+progressbar > trough > progress,
+progressbar progress.left,
+progressbar progress.right,
+progressbar progress.top,
+progressbar progress.bottom,
+checkbutton check,
+check,
+switch {
+    border-radius: 0;
+}
+scale slider {
+    min-width: 16px;
+    min-height: 16px;
+    margin: -8px;
+}
+entry:focus,
+spinbutton:focus {
+    box-shadow: inset 0 0 0 2px #ff2e7e;
+}

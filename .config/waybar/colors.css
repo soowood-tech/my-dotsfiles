@@ -1,0 +1,9 @@
+/* Dynamic colors generated from wallpaper */
+@define-color bg #000000;
+@define-color bg-alt #0d0d11;
+@define-color fg #e6e6ec;
+@define-color muted #555566;
+@define-color accent #e3453c;
+@define-color accent2 #ce322f;
+@define-color border-active #e3453c;
+@define-color border-inactive rgba(35, 35, 45, 0.6);

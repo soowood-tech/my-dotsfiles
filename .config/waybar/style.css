@@ -1,0 +1,173 @@
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", "Font Awesome 6 Free", monospace;
+    font-size: 13px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(0, 0, 0, 0.88);
+    border: 1px solid rgba(40, 40, 50, 0.6);
+    border-radius: 14px;
+    color: @fg;
+    transition-property: background-color;
+    transition-duration: .4s;
+}
+
+/* Tooltip styling */
+tooltip {
+    background: #08080a;
+    border: 1px solid @accent;
+    border-radius: 10px;
+}
+tooltip label {
+    color: @fg;
+    padding: 6px;
+}
+
+/* Left, Center, Right module groups */
+#workspaces,
+#cava,
+#mpris,
+#clock,
+#backlight,
+#pulseaudio,
+#network,
+#bluetooth,
+#battery,
+#tray,
+#custom-power {
+    background-color: rgba(18, 18, 24, 0.85);
+    padding: 3px 12px;
+    margin: 4px 3px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: @fg;
+    transition: all 0.3s ease;
+}
+
+/* Workspaces */
+#workspaces {
+    background-color: rgba(10, 10, 14, 0.9);
+    padding: 2px 4px;
+}
+
+#workspaces button {
+    padding: 2px 8px;
+    margin: 2px;
+    border-radius: 8px;
+    color: @muted;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+#workspaces button.active {
+    color: #000000;
+    background: @accent;
+    box-shadow: 0 0 10px @accent;
+}
+
+#workspaces button:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#workspaces button.urgent {
+    background-color: #ff5555;
+    color: #000000;
+}
+
+/* Cava visualizer module */
+#cava {
+    color: @accent;
+    padding: 2px 10px;
+}
+
+/* Spotify / MPRIS */
+#mpris {
+    color: @accent2;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+#mpris:hover {
+    border-color: @accent2;
+}
+
+/* Center Clock */
+#clock {
+    background-color: #000000;
+    color: @accent;
+    border: 1px solid @accent;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+    font-size: 13.5px;
+    padding: 3px 16px;
+}
+
+/* Right Modules */
+#backlight {
+    color: #f5a97f;
+}
+
+#pulseaudio {
+    color: #8bd5ca;
+}
+#pulseaudio.muted {
+    color: #ed8796;
+}
+
+#network {
+    color: #8aadf4;
+}
+#network.disconnected {
+    color: #ed8796;
+}
+
+#bluetooth {
+    color: #b7bdf8;
+}
+#bluetooth.connected {
+    color: @accent;
+}
+
+#battery {
+    color: #a6da95;
+}
+#battery.charging, #battery.plugged {
+    color: #eed49f;
+}
+#battery.critical:not(.charging) {
+    background-color: #ed8796;
+    color: #000000;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#tray {
+    background-color: rgba(12, 12, 16, 0.9);
+}
+
+#custom-power {
+    background-color: #000000;
+    color: #ed8796;
+    border: 1px solid rgba(237, 135, 150, 0.4);
+    padding: 3px 10px;
+    margin-right: 4px;
+}
+#custom-power:hover {
+    background-color: #ed8796;
+    color: #000000;
+    box-shadow: 0 0 10px #ed8796;
+}

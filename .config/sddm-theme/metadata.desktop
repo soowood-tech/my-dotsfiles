@@ -1,0 +1,8 @@
+[SddmGreeterTheme]
+Name=hypr-sync
+Description=Hyprland Synced SDDM Theme with Darkening and Outlined Clock
+Author=soowood
+Type=sddm-theme
+MainScript=Main.qml
+ConfigFile=theme.conf
+QtVersion=6
