@@ -2,6 +2,18 @@
 
 Современный, динамичный конфиг **Hyprland** с автоматической синхронизацией цветовой палитры и обоев во всех приложениях и экране входа **SDDM**.
 
+![Hyprland Desktop](assets/desktop_showcase.png)
+
+---
+
+## 📸 Скриншоты
+
+### Экран блокировки и входа (SDDM `hypr-sync` Theme)
+
+| Обычный режим (Часы с чёрной обводкой) | Ввод пароля (Плавное затемнение) |
+| :---: | :---: |
+| ![SDDM Idle](assets/sddm_idle.png) | ![SDDM Typing](assets/sddm_typing.png) |
+
 ---
 
 ## ✨ Особенности
@@ -27,7 +39,7 @@
 Склонируйте репозиторий и запустите скрипт авто-установки:
 
 ```bash
-git clone https://github.com/USERNAME/my-dotsfiles.git ~/my-dotsfiles
+git clone https://github.com/soowood-tech/my-dotsfiles.git ~/my-dotsfiles
 cd ~/my-dotsfiles
 ./install.sh
 ```
@@ -69,4 +81,3 @@ cd ~/my-dotsfiles
 - **Экран входа**: `sddm`, `qt6-5compat`, `qt6-declarative`, `qt6-svg`
 - **Шрифты**: `ttf-jetbrains-mono-nerd`
 - **Утилиты**: `python-pillow`, `cava`, `btop`, `fastfetch`, `grim`, `slurp`, `wl-clipboard`
-# my-dotsfiles
