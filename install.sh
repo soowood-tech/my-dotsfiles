@@ -77,6 +77,7 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
         
         PACKAGES=(
             hyprland
+            hyprlock
             foot
             kitty
             rofi-wayland
@@ -225,6 +226,7 @@ echo -e "${C_GREEN}${C_BOLD}====================================================
 echo -e "Горячие клавиши:"
 echo -e "  • ${C_CYAN}SUPER + RETURN${C_RESET}  - Терминал (Foot)"
 echo -e "  • ${C_CYAN}SUPER + R / SUPER${C_RESET} - Меню приложений (Rofi)"
+echo -e "  • ${C_CYAN}SUPER + L${C_RESET}        - Экран блокировки (Hyprlock)"
 echo -e "  • ${C_CYAN}SUPER + W${C_RESET}        - Случайные обои и авто-палитра"
 echo -e "  • ${C_CYAN}SUPER + Q${C_RESET}        - Закрыть окно"
 echo -e "  • ${C_CYAN}SUPER + B${C_RESET}        - Браузер"
