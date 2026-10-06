@@ -77,7 +77,6 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
         
         PACKAGES=(
             hyprland
-            waybar
             foot
             kitty
             rofi-wayland
@@ -106,6 +105,21 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
                 MISSING_PKGS+=("$pkg")
             fi
         done
+
+        # Проверка Waybar (рекомендуется waybar-git из AUR для устранения крашей MPRIS)
+        if ! pacman -Qi waybar &>/dev/null && ! pacman -Qi waybar-git &>/dev/null; then
+            if command -v yay &>/dev/null; then
+                log_info "Установка waybar-git из AUR через yay (исправлены сбои модуля MPRIS)..."
+                yay -S --needed waybar-git
+            elif command -v paru &>/dev/null; then
+                log_info "Установка waybar-git из AUR через paru (исправлены сбои модуля MPRIS)..."
+                paru -S --needed waybar-git
+            else
+                MISSING_PKGS+=(waybar)
+            fi
+        else
+            log_ok "Waybar уже установлен: $(pacman -Qi waybar-git &>/dev/null && echo 'waybar-git (AUR)' || echo 'waybar')"
+        fi
 
         if [[ ${#MISSING_PKGS[@]} -gt 0 ]]; then
             log_warn "Требуется установить: ${MISSING_PKGS[*]}"

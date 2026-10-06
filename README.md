@@ -84,7 +84,7 @@ cd ~/my-dotsfiles
 ## 📦 Зависимости
 
 - **Оконный менеджер**: `hyprland`
-- **Панель**: `waybar`
+- **Панель**: `waybar-git` (AUR) или `waybar`
 - **Терминалы**: `foot`, `kitty`
 - **Меню**: `rofi-wayland`
 - **Обои**: `awww` (AUR) или `swww`
