@@ -2,11 +2,21 @@
 
 Современный, динамичный конфиг **Hyprland** с автоматической синхронизацией цветовой палитры и обоев во всех приложениях и экране входа **SDDM**.
 
-![Hyprland Desktop](assets/desktop_showcase.png)
+![Hyprland Desktop Showcase](assets/desktop_show.png)
 
 ---
 
 ## 📸 Скриншоты
+
+### Рабочий стол (Hyprland + Waybar + Foot + Cava + Fastfetch + Rofi)
+
+| Терминалы, Часы и Cava | Меню приложений Rofi |
+| :---: | :---: |
+| ![Hyprland Showcase](assets/desktop_show.png) | ![Rofi App Launcher](assets/desktop_showrofi.png) |
+
+| Дополнительный рабочий стол (Fastfetch + cmatrix) |
+| :---: |
+| ![Hyprland Desktop](assets/desktop_showcase.png) |
 
 ### Экран блокировки и входа (SDDM `hypr-sync` Theme)
 
