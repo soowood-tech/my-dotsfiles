@@ -97,7 +97,7 @@ def main():
 @define-color border-inactive rgba(35, 35, 45, 0.6);
 """)
 
-    # 2. Hyprland colors.conf
+    # 2. Hyprland colors.conf and colors.lua
     hypr_dir = os.path.expanduser("~/.config/hypr")
     os.makedirs(hypr_dir, exist_ok=True)
     with open(os.path.join(hypr_dir, "colors.conf"), "w") as f:
@@ -106,6 +106,16 @@ $accent = {hypr_accent}
 $accent2 = {hypr_accent2}
 $accent_inactive = rgba(25253555)
 $bg = rgba(000000ee)
+""")
+
+    with open(os.path.join(hypr_dir, "colors.lua"), "w") as f:
+        f.write(f"""-- Dynamic colors generated from wallpaper
+return {{
+    accent = "{hypr_accent}",
+    accent2 = "{hypr_accent2}",
+    accent_inactive = "rgba(25253555)",
+    bg = "rgba(000000ee)",
+}}
 """)
 
     # 3. Kitty colors.conf

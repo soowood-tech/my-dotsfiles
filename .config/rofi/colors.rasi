@@ -2,7 +2,7 @@
     bg: #000000dd;
     bg-alt: #111116cc;
     fg: #e6e6ec;
-    accent: #e3453c;
-    accent2: #ce322f;
+    accent: #8fc70b;
+    accent2: #83bc08;
     border-col: #555566;
 }

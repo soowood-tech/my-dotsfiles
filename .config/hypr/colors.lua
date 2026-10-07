@@ -1,0 +1,7 @@
+-- Dynamic colors generated from wallpaper
+return {
+    accent = "rgba(8fc70bee)",
+    accent2 = "rgba(83bc08ee)",
+    accent_inactive = "rgba(25253555)",
+    bg = "rgba(000000ee)",
+}

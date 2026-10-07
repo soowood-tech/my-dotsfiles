@@ -22,7 +22,7 @@
     horizontal_padding = 16
     text_icon_padding = 12
     frame_width = 2
-    frame_color = "#00c204"
+    frame_color = "#8fc70b"
     gap_size = 8
     separator_color = frame
     sort = yes
@@ -63,7 +63,7 @@
 [urgency_normal]
     background = "#0d0d11ee"
     foreground = "#e6e6ec"
-    frame_color = "#00c204"
+    frame_color = "#8fc70b"
     timeout = 5
 
 [urgency_critical]

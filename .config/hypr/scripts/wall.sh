@@ -92,10 +92,11 @@ elif which swaybg &>/dev/null; then
     swaybg -i "$WALL" -m fill &
 fi
 
-# 4. Перезагружаем цвета в Waybar
+# 4. Перезагружаем цвета в Waybar и Hyprland
 if pgrep -x waybar >/dev/null; then
     pkill -SIGUSR2 waybar 2>/dev/null || true
 fi
+hyprctl reload 2>/dev/null || true
 
 # 5. Обновляем Kitty и Foot
 pkill -SIGUSR1 kitty 2>/dev/null || true
