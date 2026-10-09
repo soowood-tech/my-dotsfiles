@@ -51,9 +51,15 @@ if [[ -f "$CONFD_DIR/zz-pixelstreetart.conf" ]]; then
     sed -i 's/^Current=.*/Current=hypr-sync/' "$CONFD_DIR/zz-pixelstreetart.conf" 2>/dev/null || true
 fi
 
-# Enable SDDM service if systemctl is available
+# Enable SDDM service and disable conflicting display managers
 if command -v systemctl &>/dev/null; then
-    systemctl enable sddm 2>/dev/null || true
+    for dm in gdm lightdm lxdm greetd; do
+        if systemctl is-enabled "$dm" &>/dev/null; then
+            systemctl disable "$dm" 2>/dev/null || true
+        fi
+    done
+    systemctl enable --force sddm 2>/dev/null || true
+    systemctl set-default graphical.target 2>/dev/null || true
 fi
 
 echo "✓ Тема hypr-sync успешно установлена в $TARGET_DIR"
