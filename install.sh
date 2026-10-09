@@ -163,21 +163,22 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
     fi
 fi
 
-# 2. Backup existing configs
-log_info "Создание резервной копии текущих конфигураций..."
+# 2. Backup and cleanly remove existing configs
+log_info "Создание резервной копии и очистка старых конфигураций..."
 mkdir -p "$BACKUP_DIR"
-CONFIG_LIST=(hypr waybar dunst foot kitty rofi cava btop fastfetch fish sddm-theme)
+CONFIG_LIST=(hypr waybar dunst foot kitty rofi cava btop fastfetch fish sddm-theme gtk-3.0 gtk-4.0)
 
 BACKED_UP=false
 for cfg in "${CONFIG_LIST[@]}"; do
-    if [[ -d "$HOME/.config/$cfg" ]]; then
-        cp -r "$HOME/.config/$cfg" "$BACKUP_DIR/"
+    if [[ -e "$HOME/.config/$cfg" || -L "$HOME/.config/$cfg" ]]; then
+        cp -a "$HOME/.config/$cfg" "$BACKUP_DIR/"
+        rm -rf "$HOME/.config/$cfg"
         BACKED_UP=true
     fi
 done
 
 if [[ "$BACKED_UP" == true ]]; then
-    log_ok "Резервная копия сохранена в: $BACKUP_DIR"
+    log_ok "Резервная копия сохранена в: $BACKUP_DIR (старые конфиги очищены во избежание конфликтов)"
 else
     rm -rf "$BACKUP_DIR"
     log_info "Существующих конфигураций для бэкапа не найдено."
@@ -221,6 +222,13 @@ log_info "Инициализация обоев и палитры..."
 if [[ -x "$HOME/.config/hypr/scripts/wall.sh" ]]; then
     "$HOME/.config/hypr/scripts/wall.sh" --restore 2>/dev/null || "$HOME/.config/hypr/scripts/wall.sh" --random 2>/dev/null || true
     log_ok "Палитра и темы Waybar/Foot/Kitty/Rofi/SDDM инициализированы."
+fi
+
+# 7. Reload Hyprland session
+if pgrep -x Hyprland >/dev/null; then
+    log_info "Перезагрузка конфигурации Hyprland..."
+    hyprctl reload 2>/dev/null || true
+    log_ok "Сессия Hyprland обновлена (ошибки сброшены)."
 fi
 
 echo
