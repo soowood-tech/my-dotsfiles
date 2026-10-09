@@ -51,6 +51,11 @@ if [[ -f "$CONFD_DIR/zz-pixelstreetart.conf" ]]; then
     sed -i 's/^Current=.*/Current=hypr-sync/' "$CONFD_DIR/zz-pixelstreetart.conf" 2>/dev/null || true
 fi
 
+# Enable SDDM service if systemctl is available
+if command -v systemctl &>/dev/null; then
+    systemctl enable sddm 2>/dev/null || true
+fi
+
 echo "✓ Тема hypr-sync успешно установлена в $TARGET_DIR"
 echo "✓ Настройка сохранена в $CONF_FILE"
 echo "✓ Пользователь $REAL_USER имеет права на динамическое обновление обоев и цветов"

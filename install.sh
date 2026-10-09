@@ -96,6 +96,8 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
             power-profiles-daemon
             brightnessctl
             sddm
+            xorg-server
+            xorg-xauth
             qt6-5compat
             qt6-declarative
             qt6-svg

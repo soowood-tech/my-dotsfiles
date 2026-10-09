@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 import sys
 import os
+import io
+import zipfile
+import re
 import colorsys
+from pathlib import Path
 from PIL import Image
 
 def rgb_to_hex(r, g, b):
@@ -48,6 +52,126 @@ def extract_palette(image_path):
     except Exception as e:
         print(f"Error extracting colors: {e}", file=sys.stderr)
         return [80, 190, 250], [200, 90, 240]
+
+def generate_telegram_theme(img_path, hex_accent, hex_accent2, hex_fg):
+    palette_file = Path(os.path.expanduser("~/.config/hypr/scripts/night.palette"))
+    if not palette_file.exists():
+        return
+    base_palette = {}
+    for line in palette_file.read_text().splitlines():
+        m = re.match(r"\s*([A-Za-z]\w*)\s*:\s*(#[0-9a-fA-F]{6,8})\s*;", line)
+        if m:
+            base_palette[m.group(1)] = m.group(2).lower()
+
+    def parse_rgb(h):
+        h = h.lstrip("#")
+        return tuple(int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
+
+    def format_hex(c, alpha=""):
+        return "#" + "".join(f"{max(0, min(255, round(v * 255))):02x}" for v in c) + alpha
+
+    def mix_rgb(a, b, t):
+        return tuple(a[i] + (b[i] - a[i]) * t for i in range(3))
+
+    def calc_lum(c):
+        return 0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]
+
+    def calc_chroma(c):
+        return max(c) - min(c)
+
+    s = {
+        "deep": parse_rgb("#050508"),
+        "desk": parse_rgb("#0b0b0f"),
+        "face": parse_rgb("#121217"),
+        "faceAlt": parse_rgb("#181820"),
+        "hover": parse_rgb("#1f1f28"),
+        "line": parse_rgb("#272733"),
+        "textDim": parse_rgb("#888899"),
+        "text": parse_rgb(hex_fg),
+        "accent": parse_rgb(hex_accent),
+        "accentText": parse_rgb(hex_accent2),
+        "onAccent": parse_rgb("#ffffff"),
+    }
+    ramp = [(0.0, s["deep"]), (0.085, s["desk"]), (0.125, s["face"]), (0.18, s["faceAlt"]),
+            (0.26, s["line"]), (0.5, s["textDim"]), (0.93, s["text"]), (1.0, mix_rgb(s["text"], (1, 1, 1), 0.5))]
+    ref_dark = parse_rgb(base_palette.get("windowBgActive", "#5288c1"))
+    ref_light = parse_rgb(base_palette.get("windowActiveTextFg", "#6ab3f3"))
+
+    def neutral(c):
+        y = calc_lum(c)
+        for (y0, c0), (y1, c1) in zip(ramp, ramp[1:]):
+            if y <= y1:
+                return mix_rgb(c0, c1, 0 if y1 == y0 else (y - y0) / (y1 - y0))
+        return ramp[-1][1]
+
+    tgt_dark = colorsys.rgb_to_hls(*s["accent"])
+    tgt_light = colorsys.rgb_to_hls(*s["accentText"])
+    src_dark = colorsys.rgb_to_hls(*ref_dark)
+    src_light = colorsys.rgb_to_hls(*ref_light)
+
+    def accent_fn(c):
+        h, l, sat = colorsys.rgb_to_hls(*c)
+        lo, hi = sorted((src_dark[1], src_light[1]))
+        w = 0.5 if hi == lo else min(1.0, max(0.0, (l - lo) / (hi - lo)))
+        if src_dark[1] > src_light[1]:
+            w = 1.0 - w
+        src = tuple(src_dark[i] + (src_light[i] - src_dark[i]) * w for i in range(3))
+        tgt = tuple(tgt_dark[i] + (tgt_light[i] - tgt_dark[i]) * w for i in range(3))
+        nh = (tgt[0] + (h - src[0]) * 0.3) % 1.0
+        nl = min(0.96, max(0.04, l + (tgt[1] - src[1])))
+        ns = min(1.0, max(0.0, sat * (tgt[2] / src[2] if src[2] > 0.01 else 1.0)))
+        return colorsys.hls_to_rgb(nh, nl, ns)
+
+    out = {}
+    for key, val in base_palette.items():
+        c, alpha = parse_rgb(val[:7]), val[7:9]
+        h = colorsys.rgb_to_hls(*c)[0] * 360
+        if val[:7] == "#ffffff" and re.search(r"Active|activeButton|Unread|Badge", key) and not re.search(r"Bg(Over|Ripple|Active)?$", key):
+            n = s["onAccent"]
+        elif key in ("imageBg", "imageBgTransparent") or (val[:7] == "#000000" and alpha):
+            n = c
+        elif calc_chroma(c) < 0.22:
+            n = neutral(c)
+        elif 180 <= h <= 245:
+            n = accent_fn(c)
+        else:
+            n = c
+        out[key] = format_hex(n, alpha)
+
+    head = "// Telegram theme generated dynamically from wallpaper\n"
+    text = head + "".join(f"{k}: {v};\n" for k, v in out.items())
+
+    buf_bg = io.BytesIO()
+    if img_path and os.path.exists(img_path):
+        try:
+            im = Image.open(img_path).convert("RGB")
+            im.thumbnail((1920, 1080), Image.Resampling.LANCZOS)
+            im.save(buf_bg, "JPEG", quality=85)
+            bg_bytes = buf_bg.getvalue()
+        except Exception:
+            bg_bytes = None
+    else:
+        bg_bytes = None
+
+    buf_zip = io.BytesIO()
+    with zipfile.ZipFile(buf_zip, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("colors.tdesktop-theme", text.encode("utf-8"))
+        if bg_bytes:
+            z.writestr("background.jpg", bg_bytes)
+
+    theme_bytes = buf_zip.getvalue()
+
+    targets = [
+        os.path.expanduser("~/.config/hypr/theme.tdesktop-theme"),
+        os.path.expanduser("~/.local/share/angelos/telegram/angelOS.tdesktop-theme"),
+    ]
+    for target in targets:
+        try:
+            os.makedirs(os.path.dirname(target), exist_ok=True)
+            with open(target, "wb") as f:
+                f.write(theme_bytes)
+        except Exception as e:
+            print(f"Warning: could not write {target}: {e}", file=sys.stderr)
 
 def main():
     if len(sys.argv) > 1:
@@ -330,6 +454,9 @@ defaultUser={username}
     timeout = 0
 """)
     os.system("systemctl --user restart dunst 2>/dev/null || dunstctl reload 2>/dev/null")
+
+    # 9. Telegram Desktop theme
+    generate_telegram_theme(img_path, hex_accent, hex_accent2, hex_fg)
 
     print(f"Colors generated from: {img_path or 'default'}")
     print(f"Accent: {hex_accent} | Accent2: {hex_accent2}")
