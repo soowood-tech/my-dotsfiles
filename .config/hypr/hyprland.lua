@@ -175,8 +175,10 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"),       { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
 
 -- Screenshots
-hl.bind("Print",                   hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy && notify-send "Скриншот скопирован" || true]]))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy && notify-send "Скриншот скопирован" || true]]))
+hl.bind("Print",                       hl.dsp.exec_cmd([[grimblast --notify --freeze copysave area]]))
+hl.bind(mainMod .. " + Print",         hl.dsp.exec_cmd([[grimblast --notify copysave active]]))
+hl.bind(mainMod .. " + SHIFT + Print", hl.dsp.exec_cmd([[grimblast --notify copysave screen]]))
+hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.exec_cmd([[grimblast --notify --freeze copysave area]]))
 
 -- Focus movement
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))

@@ -90,6 +90,8 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
             python-pillow
             grim
             slurp
+            hyprpicker
+            jq
             wl-clipboard
             libnotify
             dunst
@@ -159,6 +161,15 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
             fi
         else
             log_ok "Демон обоев найден: $(command -v awww || command -v swww)"
+        fi
+
+        # Проверка утилиты grimblast для скриншотов
+        if ! command -v grimblast &>/dev/null; then
+            log_info "Установка grimblast в ~/.local/bin/grimblast..."
+            mkdir -p "$HOME/.local/bin"
+            curl -sL https://raw.githubusercontent.com/hyprwm/contrib/main/grimblast/grimblast -o "$HOME/.local/bin/grimblast"
+            chmod +x "$HOME/.local/bin/grimblast"
+            log_ok "grimblast успешно установлен в ~/.local/bin/grimblast."
         fi
     fi
 fi
